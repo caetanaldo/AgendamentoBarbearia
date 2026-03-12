@@ -52,7 +52,13 @@ app.get('/listar-agendamentos', async (req, res)=>{
     let connection;
 
     try {
+        connection = await mysql.createConnection(dbConfig)
+        console.log("Conectado ao banco Mysql");
+
+        const [rows] = await connection.execute('SELECT * FROM agendamentos');
+        res.status(200).json(rows);
         
+
     } catch (err) {
         console.error("Erro ao listar o agendamento: ", err);
         res.status(500).send({message: 'Erro interno ao buscar o agendamento'});        
